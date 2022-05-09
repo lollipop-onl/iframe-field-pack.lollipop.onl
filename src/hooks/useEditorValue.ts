@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-export const useEditorValue = <Data>() => {
-  const [value, setValue] = useState<Data>();
+export const useEditorValue = <Data>(defaultValue: Data) => {
+  const [value, setValue] = useState<Data>(defaultValue);
   const [iframeId, setIframeId] = useState<string>();
 
   useEffect(() => {
@@ -13,7 +13,10 @@ export const useEditorValue = <Data>() => {
       switch (e.data.action) {
         case 'MICROCMS_GET_DEFAULT_DATA': {
           setIframeId(e.data.id);
-          setValue(e.data.message);
+
+          if (e.data.message) {
+            setValue(e.data.message);
+          }
         }
       }
     };
@@ -25,5 +28,15 @@ export const useEditorValue = <Data>() => {
     };
   }, []);
 
-  return [value, setValue];
+  useEffect(() => {
+    window.parent.postMessage({
+      id: iframeId,
+      action: 'MICROCMS_POST_DATA',
+      message: {
+        data: value,
+      },
+    });
+  }, [value, iframeId]);
+
+  return [value, setValue] as const;
 };
