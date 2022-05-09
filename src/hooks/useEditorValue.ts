@@ -8,7 +8,7 @@ export const useEditorValue = <Data>(defaultValue: Data) => {
     const onMessage = (e: MessageEvent): void => {
       if (!e.isTrusted) return;
 
-      console.log(e.data);
+      console.log(e);
 
       switch (e.data.action) {
         case 'MICROCMS_GET_DEFAULT_DATA': {
