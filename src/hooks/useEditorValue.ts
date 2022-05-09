@@ -12,10 +12,12 @@ export const useEditorValue = <Data>(defaultValue: Data) => {
 
       switch (e.data.action) {
         case 'MICROCMS_GET_DEFAULT_DATA': {
-          setIframeId(e.data.id);
+          const { id, data } = e.data;
 
-          if (e.data.message) {
-            setValue(e.data.message);
+          setIframeId(id);
+
+          if (data) {
+            setValue(data);
           }
         }
       }
