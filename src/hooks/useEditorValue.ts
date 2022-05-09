@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react';
 
 export const useEditorValue = <Data>(defaultValue: Data) => {
   const [value, setValue] = useState<Data | null>(null);
+  const [origin, setOrigin] = useState<string | null>(null);
   const [iframeId, setIframeId] = useState<string>();
 
   useEffect(() => {
     const onMessage = (e: MessageEvent): void => {
       if (!e.isTrusted) return;
 
-      console.log(e);
+      if (!e.origin.endsWith('.microcms.io')) return;
+
+      setOrigin(e.origin);
 
       switch (e.data.action) {
         case 'MICROCMS_GET_DEFAULT_DATA': {
@@ -33,6 +36,8 @@ export const useEditorValue = <Data>(defaultValue: Data) => {
   }, []);
 
   useEffect(() => {
+    if (origin == null) return;
+
     window.parent.postMessage(
       {
         id: iframeId,
@@ -41,9 +46,9 @@ export const useEditorValue = <Data>(defaultValue: Data) => {
           data: value,
         },
       },
-      '*'
+      origin
     );
-  }, [value, iframeId]);
+  }, [value, iframeId, origin]);
 
   return [value, setValue] as const;
 };
