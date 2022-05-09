@@ -29,13 +29,16 @@ export const useEditorValue = <Data>(defaultValue: Data) => {
   }, []);
 
   useEffect(() => {
-    window.parent.postMessage({
-      id: iframeId,
-      action: 'MICROCMS_POST_DATA',
-      message: {
-        data: value,
+    window.parent.postMessage(
+      {
+        id: iframeId,
+        action: 'MICROCMS_POST_DATA',
+        message: {
+          data: value,
+        },
       },
-    });
+      '*'
+    );
   }, [value, iframeId]);
 
   return [value, setValue] as const;
