@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const useEditorValue = <Data>(defaultValue: Data) => {
   const [value, setValue] = useState<Data | null>(null);
@@ -50,5 +50,23 @@ export const useEditorValue = <Data>(defaultValue: Data) => {
     );
   }, [value, iframeId, origin]);
 
-  return [value, setValue] as const;
+  const setHeight = useCallback(
+    (height: number) => {
+      if (origin == null) return;
+
+      window.parent.postMessage(
+        {
+          id: iframeId,
+          action: 'MICROCMS_UPDATE_STYLE',
+          message: {
+            height,
+          },
+        },
+        origin
+      );
+    },
+    [origin]
+  );
+
+  return { value, setValue, setHeight } as const;
 };
