@@ -1,0 +1,30 @@
+{
+  "name": "iframe-field-pack.lollipop.onl",
+  "version": "1.0.0",
+  "description": "microCMS admin iframe field pack",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lollipop-onl/iframe-field-pack.lollipop.onl.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite buildd"
+  },
+  "author": "lollipop-onl",
+  "license": "MIT",
+  "homepage": "https://iframe-field-pack.lollipop.onl",
+  "devDependencies": {
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.3",
+    "@vitejs/plugin-react": "^1.3.2",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.8",
+    "vite-tsconfig-paths": "^3.4.1"
+  },
+  "dependencies": {
+    "@tsconfig/vite-react": "^1.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0"
+  }
+}
