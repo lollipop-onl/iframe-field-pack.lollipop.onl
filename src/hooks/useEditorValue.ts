@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export const useEditorValue = <Data>(defaultValue: Data) => {
-  const [value, setValue] = useState<Data>(defaultValue);
+  const [value, setValue] = useState<Data | null>(null);
   const [iframeId, setIframeId] = useState<string>();
 
   useEffect(() => {
@@ -16,7 +16,9 @@ export const useEditorValue = <Data>(defaultValue: Data) => {
 
           setIframeId(id);
 
-          if (message.data) {
+          if (!message) {
+            setValue(defaultValue);
+          } else {
             setValue(message.data);
           }
         }
